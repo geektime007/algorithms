@@ -18,7 +18,7 @@ import "fmt"
 func lengthOfLongestSubstring(s string) int {
 	// 最大子串长度
 	maxStrLen := 0
-	//重复字符的上次出现的索引,上一个重复字符和和当前重复字符的之间的子串即有效子串
+	//重复字符的上次出现的索引,上一个重复字符和当前重复字符的之间的子串即有效子串
 	p := 0
 	// 字符下标字典
 	charData := make(map[int32]int, 128)
