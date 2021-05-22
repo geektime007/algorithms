@@ -158,6 +158,17 @@ func (head *ListNode) RemoveNthFromEnd(n int) *ListNode {
 	return head
 }
 
+func (head *ListNode) MiddleNode() *ListNode {
+	var slow *ListNode = head
+	var fast *ListNode = head
+
+	for fast != nil && fast.Next != nil {
+		slow = slow.Next
+		fast = fast.Next.Next
+	}
+	return slow
+}
+
 func main() {
 	fmt.Println("vim-go")
 	var nodes1 = []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
@@ -166,9 +177,15 @@ func main() {
 	l1 := InitLinkNodes(nodes1)
 	PrintLinkNodes(l1)
 
+	// 找出中间节点
+	PrintLinkNodes(l1.MiddleNode())
+
 	// 删除链表倒数第 N 个节点
 	l1.RemoveNthFromEnd(2)
 	PrintLinkNodes(l1)
+
+	// 找出中间节点
+	PrintLinkNodes(l1.MiddleNode())
 
 	// 扩展：尝试实现删除链表倒数第 N 至倒数第 M 的节点
 }
