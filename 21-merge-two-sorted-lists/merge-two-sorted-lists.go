@@ -361,6 +361,7 @@ func (head *ListNode) HasCycle() bool {
 	cur := head.Next
 	for cur != nil {
 		p := cur.Next
+		// 这种方法不对,  有可能会造成死循环
 		for p != nil {
 			if cur == p {
 				return true
@@ -373,8 +374,55 @@ func (head *ListNode) HasCycle() bool {
 }
 
 // 检查单链表中是否存在环
+// 标准答案  快慢指针
+func (head *ListNode) HasCycle1() bool {
+	slow, fast := head.Next, head.Next
+	for slow != nil && fast != nil && fast.Next != nil {
+		fast = fast.Next.Next
+		slow = slow.Next
+		if slow == fast {
+			return true
+		}
+	}
+	return false
+}
+
+// 检查单链表中是否存在环
+// 标准答案  快慢指针
+func (head *ListNode) HasCycle2() (bool, *ListNode) {
+	slow, fast := head.Next, head.Next
+	for slow != nil && fast != nil && fast.Next != nil {
+		fast = fast.Next.Next
+		slow = slow.Next
+		if slow == fast {
+			return true, slow
+		}
+	}
+	return false, nil
+}
+
+// 检查单链表中是否存在环
 func HasCycle(l *ListNode) bool {
-	return l.HasCycle()
+	return l.HasCycle1()
+}
+
+// 检查单链表中是否存在环
+// 并返回链表存在环的起点指针
+func DetectCycle(l *ListNode) *ListNode {
+	if l == nil || l.Next == nil {
+		return nil
+	}
+	isCycle, slow := l.HasCycle2()
+	if !isCycle {
+		return nil
+	}
+
+	fast := l.Next
+	for fast != slow {
+		fast = fast.Next
+		slow = slow.Next
+	}
+	return slow
 }
 
 // 创建一个环形链表
@@ -467,5 +515,7 @@ func main() {
 	fmt.Println("初始化一个环形链表：")
 	l9 := CreateCycleList(nodes1)
 	fmt.Println("是否存在环: ", l9.HasCycle())
+
+	fmt.Println("环的起始节点: ", DetectCycle(l9))
 
 }
