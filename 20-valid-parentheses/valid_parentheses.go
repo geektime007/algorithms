@@ -45,14 +45,13 @@ func (s *Stack) Get() rune {
 	if s.count == 0 {
 		return rune(0)
 	}
-	fmt.Println("===", s.items[s.count-1])
 	return s.items[s.count-1]
 }
 
 func (s *Stack) Println() {
 	//fmt.Println(s.count)
 	for _, v := range s.items {
-		fmt.Printf("%v-", v)
+		fmt.Printf("%v - ", v)
 	}
 	fmt.Printf("\n")
 }
@@ -71,10 +70,9 @@ func isValid(s string) bool {
 			stack.Println()
 		} else {
 			v := stack.Get()
-			fmt.Printf("Get=> %v %T %v %T\n",
-				v, v, rune(s[i]), rune(s[i]))
-			//v, v, rune(vv), rune(vv))
-			if v == rune(s[i]) {
+			//fmt.Printf("Get=> %v %T %v %T\n",
+			//	v, v, rune(s[i]), rune(s[i]))
+			if v == strMap[rune(s[i])] {
 				fmt.Println("Pop => ", stack.Pop())
 			} else {
 				stack.Push(rune(s[i]))
@@ -83,6 +81,12 @@ func isValid(s string) bool {
 		}
 	}
 	return stack.IsEmpty()
+}
+
+var strMap map[rune]rune = map[rune]rune{
+	')': '(',
+	']': '[',
+	'}': '{',
 }
 
 func main() {
