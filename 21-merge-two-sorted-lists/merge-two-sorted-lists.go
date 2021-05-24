@@ -356,6 +356,31 @@ func MergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 	return res
 }
 
+// 将两个链表合并成为一个有序链表  非递归方式
+func MergeTwoLists1(l1 *ListNode, l2 *ListNode) *ListNode {
+	head := NewNode(0)
+	prev := head
+	var cur *ListNode
+	for l1 != nil && l2 != nil {
+		if l1.Val <= l2.Val {
+			cur = l1
+			l1 = l1.Next
+		} else {
+			cur = l2
+			l2 = l2.Next
+		}
+		prev.Next = cur
+		prev = cur
+	}
+	if l1 != nil {
+		prev.Next = l1
+	}
+	if l2 != nil {
+		prev.Next = l2
+	}
+	return head.Next
+}
+
 // 检查单链表中是否存在环
 func (head *ListNode) HasCycle() bool {
 	cur := head.Next
