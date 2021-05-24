@@ -121,7 +121,7 @@ func InitLinkNodes(values []int) *ListNode {
 // 打印链表
 func PrintLinkNodes(l *ListNode) {
 	if l == nil {
-		panic("list is nil")
+		fmt.Println("list is nil")
 		return
 	}
 	point := l.Next
@@ -133,8 +133,11 @@ func PrintLinkNodes(l *ListNode) {
 	fmt.Printf("%v -> nil\n", point.Val)
 }
 
-// 删除链表倒数第 n 个节点
+// 删除链表倒数第 n 个节点 (此方法存在问题)
 func (head *ListNode) RemoveNthFromEnd(n int) *ListNode {
+	if head == nil {
+		return head
+	}
 	var fast, slow *ListNode = head, head
 	i := 0
 	for fast != nil {
@@ -158,6 +161,26 @@ func (head *ListNode) RemoveNthFromEnd(n int) *ListNode {
 	return head
 }
 
+// 删除链表倒数第 n 个节点
+func (head *ListNode) RemoveNthFromEnd1(n int) *ListNode {
+	if head == nil {
+		return head
+	}
+	dummyHead := &ListNode{Next: head}
+	preSlow, slow, fast := dummyHead, head, head
+	for fast != nil {
+		if n <= 0 {
+			preSlow = slow
+			slow = slow.Next
+		}
+		n--
+		fast = fast.Next
+	}
+	preSlow.Next = slow.Next
+	return dummyHead.Next
+}
+
+// 找出链表中间节点
 func (head *ListNode) MiddleNode() *ListNode {
 	var slow *ListNode = head
 	var fast *ListNode = head
@@ -181,11 +204,32 @@ func main() {
 	PrintLinkNodes(l1.MiddleNode())
 
 	// 删除链表倒数第 N 个节点
-	l1.RemoveNthFromEnd(2)
+	//l1.RemoveNthFromEnd(2)
+	l1.RemoveNthFromEnd1(1)
 	PrintLinkNodes(l1)
 
 	// 找出中间节点
 	PrintLinkNodes(l1.MiddleNode())
+
+	nodes2 := []int{1, 2}
+
+	// 链表初始化
+	l2 := InitLinkNodes(nodes2)
+	PrintLinkNodes(l2)
+
+	// 删除链表倒数第 N 个节点
+	l2.RemoveNthFromEnd1(1)
+	PrintLinkNodes(l2)
+
+	nodes3 := []int{}
+
+	// 链表初始化
+	l3 := InitLinkNodes(nodes3)
+	PrintLinkNodes(l3)
+
+	// 删除链表倒数第 N 个节点
+	l3.RemoveNthFromEnd1(1)
+	PrintLinkNodes(l3)
 
 	// 扩展：尝试实现删除链表倒数第 N 至倒数第 M 的节点
 }
