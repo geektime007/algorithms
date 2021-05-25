@@ -10,6 +10,7 @@ import "fmt"
 // 大于基准元素。此时基准元素在其排好序后的正确位置，
 // 然后再用同样的方法递归地排序划分的两部分。
 
+// 使用了额外的内存空间
 func quickSort(nums []int) []int {
 	// 先判断是否需要继续进行
 	length := len(nums)
@@ -40,10 +41,60 @@ func quickSort(nums []int) []int {
 	return append(leftNums, rightNums...)
 }
 
+// 不实用额外的内存空间  原地排序
+func QuickSort(nums []int) []int {
+	if len(nums) < 2 {
+		return nums
+	}
+	_QuickSort(nums, 0, len(nums)-1)
+	return nums
+}
+
+func _QuickSort(nums []int, left, right int) {
+	if left > right {
+		return
+	}
+	// 位置划分
+	pivot := partition(nums, left, right)
+	// 左边部分排序
+	_QuickSort(nums, left, pivot-1)
+	// 右边部分排序
+	_QuickSort(nums, pivot+1, right)
+}
+
+func partition(nums []int, left, right int) int {
+	// 导致 low 位置值为空
+	pivot := nums[left]
+	for left < right {
+		// right 指针值 >= pivot right 左移
+		for left < right && pivot <= nums[right] {
+			right--
+		}
+		// 填补 low 位置空值
+		// right 指针值 < pivot right值 移动到 low 位置
+		// right 位置值空
+		nums[left] = nums[right]
+
+		for left < right && pivot >= nums[left] {
+			left++
+		}
+
+		// 填补 right 位置空值
+		// low 指针值 > pivot low 值 移动到 right 位置
+		// low 位置值空
+		nums[right] = nums[left]
+	}
+
+	// pivot 填补 low 位置的空值
+	nums[left] = pivot
+	return left
+}
+
 func main() {
 	fmt.Println("vim-go")
 	a := []int{2, 4, 1, 8, 3, 5, 10}
 	fmt.Println(a)
-	b := quickSort(a)
+	//b := quickSort(a)
+	b := QuickSort(a)
 	fmt.Println(b)
 }
