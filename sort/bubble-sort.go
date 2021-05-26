@@ -22,10 +22,34 @@ func bubbleSort(nums []int) []int {
 	return nums
 }
 
+func bubbleSort1(nums []int) []int {
+	length := len(nums)
+	for i := 0; i < length-1; i++ {
+		for j := i + 1; j < length; j++ {
+			if nums[i] > nums[j] {
+				nums[i], nums[j] = nums[j], nums[i]
+			}
+		}
+	}
+	return nums
+}
+
+func bubbleSort2(nums []int) []int {
+	length := len(nums)
+	for i := 0; i < length; i++ {
+		for j := 0; j < length-i-1; j++ {
+			if nums[j] > nums[j+1] {
+				nums[j+1], nums[j] = nums[j], nums[j+1]
+			}
+		}
+	}
+	return nums
+}
+
 func main() {
 	fmt.Println("vim-go")
 	a := []int{2, 4, 1, 8, 3, 5, 10}
 	fmt.Println(a)
-	b := bubbleSort(a)
+	b := bubbleSort2(a)
 	fmt.Println(b)
 }
