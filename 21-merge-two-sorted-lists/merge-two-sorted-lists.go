@@ -197,7 +197,6 @@ func (head *ListNode) Reversed3(n int) *ListNode {
 	var prev *ListNode = nil
 	count := 0
 	for cur != nil {
-		count += 1
 		if count == n {
 			// 这里将当前 cur 链, 直接插到 prev 尾部即可
 			prev.InsertNodeFromTail(cur)
@@ -208,6 +207,8 @@ func (head *ListNode) Reversed3(n int) *ListNode {
 		cur.Next = prev
 		prev = cur
 		cur = tmp
+
+		count += 1
 	}
 	head.Next = prev
 	return head
@@ -472,6 +473,9 @@ func main() {
 	l2 := InitLinkNodes(nodes2)
 	PrintLinkNodes(l1)
 	PrintLinkNodes(l2)
+
+	l1.Reversed3(3)
+	PrintLinkNodes(l1)
 
 	l3 := NewNode(0)
 	fmt.Println("合并链表：")
