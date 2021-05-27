@@ -6,9 +6,9 @@ type LinkNoder interface {
 	// 后面添加
 	Add(val int)
 	// 删除指定 index  位置元素
-	Delete(index int) int
+	DeleteByIndex(index int) int
 	// 在指定 index 位置插入元素
-	Insert(index int, val int)
+	InsertByIndex(index int, val int)
 	// 从链表头部插入一个元素
 	InsertFromHead(val int)
 	// 从链表头部插入一个节点
@@ -18,30 +18,30 @@ type LinkNoder interface {
 	// 从链表尾部插入一个节点
 	InsertNodeFromTail(n *Node)
 	// 链表反转
-	// Bad method
 	Reversed() *Node
 	// 链表反转1
 	Reversed1() *Node
 	// 链表反转2
 	Reversed2() *Node
 	// 链表反转前 N 个节点
-	Reversed3(n int) *Node
+	// Bad method
+	Reversed3() *Node
 	// 链表反转递归实现
-	Reversed4() *Node
-	// 从链表第 index 个节点开始反转
-	ReversedFromIndex(index int)
+	ReversedN() *Node
+	// 从链表第 n 个节点开始反转
+	ReversedFromN(n int)
 	// 从链表第 start 个节点开始反转, 到 end 个节点停止反转
 	ReversedFromStart2End(start int, end int) *Node
 	// 获取链表长度
 	GetLength() int
 	// 查找元素位置
 	Search(val int) int
-	// 获取指定index位置的元素
-	GetVal(index int) int
-	// 获取所有的元素
-	GetAll() []int
 	// 检查单链表中是否存在环
-	HasCycle(l *Node) bool
+	HasCycle() (*Node, bool)
+	// 找出链表中间的结点
+	Middle() *Node
+	// 判断链表是否是回文链表
+	IsPalindromic() bool
 }
 
 type Node struct {
@@ -56,6 +56,7 @@ func NewNode(val int) *Node {
 	}
 }
 
+// 初始化一个链表
 func InitLinkNodes(nums []int) *Node {
 	if len(nums) == 0 {
 		return nil
@@ -444,7 +445,15 @@ func MergeTwoLinkList1(l1 *Node, l2 *Node) *Node {
 }
 
 // 判断两个链表是否相交
+// 不必记录链表的长度，两条链表分别走一遍
+// 较短的链表先检测到Next为空，之后开始走较长的链表
+// 较长的链表继续走，检测到Next为空时，走较短的链表
+// 如果有交点，第二轮一定会找到交点
 func IsIntersection(l1 *Node, l2 *Node) *Node {
+	if l1.Next == nil || l2.Next == nil {
+		return nil
+	}
+
 	l1l2 := l1.Next
 	l2l1 := l2.Next
 	for l1l2 != l2l1 {

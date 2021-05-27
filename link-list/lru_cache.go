@@ -13,13 +13,13 @@ import "fmt"
 // 最后别忘记还需要维护双向链表的 cap，如果超过 cap，
 // 需要淘汰最后一个结点，双向链表中删除这个结点，map 中删掉这个结点对应的 key。
 
-type Node struct {
+type ListNode struct {
 	Key, Val   int
-	Prev, Next *Node
+	Prev, Next *ListNode
 }
 
-func newNode(key int, val int) *Node {
-	return &Node{
+func newListNode(key int, val int) *ListNode {
+	return &ListNode{
 		Key:  key,
 		Val:  val,
 		Prev: nil,
@@ -28,14 +28,14 @@ func newNode(key int, val int) *Node {
 }
 
 type LRUCache struct {
-	head, tail *Node
-	Keys       map[int]*Node
+	head, tail *ListNode
+	Keys       map[int]*ListNode
 	Cap        int
 }
 
 // 新建 LRUCache
 func Constructor(capacity int) *LRUCache {
-	return &LRUCache{Keys: make(map[int]*Node), Cap: capacity}
+	return &LRUCache{Keys: make(map[int]*ListNode), Cap: capacity}
 }
 
 // 访问数据
@@ -56,7 +56,7 @@ func (l *LRUCache) Put(key int, value int) {
 		l.Add(node)
 		return
 	} else {
-		node = &Node{Key: key, Val: value}
+		node = &ListNode{Key: key, Val: value}
 		l.Keys[key] = node
 		l.Add(node)
 	}
@@ -67,7 +67,7 @@ func (l *LRUCache) Put(key int, value int) {
 }
 
 // 添加节点 头插
-func (l *LRUCache) Add(node *Node) {
+func (l *LRUCache) Add(node *ListNode) {
 	node.Prev = nil
 	node.Next = l.head
 	if l.head != nil {
@@ -81,7 +81,7 @@ func (l *LRUCache) Add(node *Node) {
 }
 
 // 删除节点
-func (l *LRUCache) Remove(node *Node) {
+func (l *LRUCache) Remove(node *ListNode) {
 	if node == l.head {
 		l.head = node.Next
 		node.Next = nil

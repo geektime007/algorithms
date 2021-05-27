@@ -7,6 +7,7 @@ func MergeSort(nums []int) []int {
 	if length < 2 {
 		return nums
 	}
+
 	tmp := make([]int, length)
 	mergeSort(nums, tmp, 0, length-1)
 	return nums
@@ -16,8 +17,9 @@ func mergeSort(nums []int, tmp []int, start int, end int) {
 	if start >= end {
 		return
 	}
+
 	start1 := start
-	end1 := start + (end-start)/2
+	end1 := start1 + (end-start1)/2
 
 	start2 := end1 + 1
 	end2 := end
@@ -37,6 +39,7 @@ func MergeSortedArray(nums1 []int, start1 int, end1 int,
 	i := start1
 	j := start2
 	k := start
+
 	for i <= end1 && j <= end2 {
 		if nums1[i] < nums2[j] {
 			tmp[k] = nums1[i]
@@ -53,8 +56,9 @@ func MergeSortedArray(nums1 []int, start1 int, end1 int,
 		k++
 		i++
 	}
+
 	for j <= end2 {
-		tmp[k] = nums1[j]
+		tmp[k] = nums2[j]
 		k++
 		j++
 	}
