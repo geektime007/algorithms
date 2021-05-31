@@ -84,6 +84,9 @@ func (l *LRUCache) Add(node *ListNode) {
 func (l *LRUCache) Remove(node *ListNode) {
 	if node == l.head {
 		l.head = node.Next
+		if node.Next != nil {
+			node.Next.Prev = nil
+		}
 		node.Next = nil
 		return
 	}
