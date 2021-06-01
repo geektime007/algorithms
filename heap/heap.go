@@ -98,9 +98,11 @@ func (h *Heap) BuildLittletHeap() {
 func (h *Heap) heapify1(pos int) {
 	for {
 		maxPos := pos
+		// 左子结点
 		if pos*2 <= h.count && h.array[pos] < h.array[pos*2] {
 			maxPos = pos * 2
 		}
+		// 右子结点
 		if pos*2+1 <= h.count && h.array[maxPos] < h.array[pos*2+1] {
 			maxPos = pos*2 + 1
 		}
@@ -150,7 +152,7 @@ func (h *Heap) heapify3(n int, pos int) {
 	}
 }
 
-// 排序 大顶堆
+// 堆排序 大顶堆
 func (h *Heap) Sort() {
 	h.BuildBigHeap()
 	k := h.count
@@ -161,7 +163,7 @@ func (h *Heap) Sort() {
 	}
 }
 
-// 排序 小顶堆
+// 堆排序 小顶堆
 func (h *Heap) Sort1() {
 	h.BuildLittletHeap()
 	k := h.count
@@ -172,7 +174,7 @@ func (h *Heap) Sort1() {
 	}
 }
 
-// TopK
+// TopK  大顶堆方式
 func (h *Heap) BigTopK(n int) []int {
 	res := make([]int, 0)
 	for i := 0; i < n; i++ {
@@ -181,6 +183,7 @@ func (h *Heap) BigTopK(n int) []int {
 	return res
 }
 
+// TopK 小顶堆方式
 func (h *Heap) LittltTopK(n int) []int {
 	res := make([]int, 0)
 	for i := 0; i < n; i++ {

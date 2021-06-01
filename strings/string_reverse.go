@@ -13,6 +13,15 @@ func reverse(s []byte) []byte {
 	return s
 }
 
+func reverse2(s string) string {
+	str := []rune(s)
+	for i, j := 0, len(s)-1; i < j; i++ {
+		str[i], str[j] = str[j], str[i]
+		j--
+	}
+	return string(str)
+}
+
 func reverse1(s string) string {
 	str := []rune(s)
 	left := 0
